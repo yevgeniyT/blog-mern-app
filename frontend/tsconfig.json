@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    //The "downlevelIteration": true option in the tsconfig.json file enables more accurate iteration behavior when targeting an earlier ECMAScript version, like ES5 or ES3. When TypeScript compiles your code, it tries to maintain the same behavior as the original code, even if the target ECMAScript version does not support some language features natively. Some features like iterators, for...of loops, and spread syntax require a more advanced iteration protocol (introduced in ES2015) to work correctly.
+    "downlevelIteration": true
+  },
+  "include": ["src"]
+}
