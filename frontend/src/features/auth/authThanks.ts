@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
+import { UserCredentials } from '../../@types/usersTypes';
 
 // add type to handle error from backend respomse.data.massage as initialy it was undefined
 interface ErrorResponseData {
@@ -8,8 +9,9 @@ interface ErrorResponseData {
 
 const BASE_URL = 'http://localhost:8080/api/v1/users';
 
+// 1. Post request to register user to backend
 const registerNewUser = createAsyncThunk(
-  'users/registerNewUser',
+  'auth/registerNewUser',
   async (newUser: FormData) => {
     // log form data this way
     // for (const [key, value] of newUser) {
@@ -32,9 +34,10 @@ const registerNewUser = createAsyncThunk(
     }
   },
 );
-// post request to send token back to the backend to verify user
+
+// 2. Post request to send token back to the backend to verify user
 const verifyNewUser = createAsyncThunk(
-  'users/verifyNewUser',
+  'auth/verifyNewUser',
   // 1. get token from acountActivation component
   async (token: string) => {
     try {
@@ -48,4 +51,31 @@ const verifyNewUser = createAsyncThunk(
     }
   },
 );
-export { registerNewUser, verifyNewUser };
+
+// 3. Post reqiest to backend login user
+
+const loginUser = createAsyncThunk(
+  'auth/loginUser',
+  async (credentials: UserCredentials) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/login`, credentials, {
+        withCredentials: true,
+      });
+      console.log(response.data.message);
+
+      return response.data;
+    } catch (error) {
+      // use type of error from axios to type error massege from backend
+      const axiosError = error as AxiosError;
+      if (axiosError.response) {
+        const errorData = axiosError.response.data as ErrorResponseData;
+        //When an error is thrown in the async thunk, Redux Toolkit automatically triggers the rejected case in the slice. The error object thrown in the thunk is passed to the rejected case through the action.error object.
+        console.log(errorData.message);
+
+        throw new Error(errorData.message);
+      }
+      throw new Error('Failed to login');
+    }
+  },
+);
+export { registerNewUser, verifyNewUser, loginUser };

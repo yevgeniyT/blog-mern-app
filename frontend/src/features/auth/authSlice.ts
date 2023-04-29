@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { registerNewUser, verifyNewUser } from './authThanks';
+import { loginUser, registerNewUser, verifyNewUser } from './authThanks';
 
 import { IUser } from '../../@types/usersTypes';
 
@@ -40,10 +40,10 @@ export const userSlice = createSlice({
       .addCase(verifyNewUser.pending, state => {
         state.loading = true;
       })
-      .addCase(verifyNewUser.fulfilled, state => {
+      .addCase(verifyNewUser.fulfilled, (state, action) => {
         state.loading = false;
         state.error = false;
-        state.message = 'User account successfully activated!';
+        state.message = action.payload.message;
       })
       .addCase(verifyNewUser.rejected, (state, action) => {
         state.loading = false;
@@ -51,6 +51,22 @@ export const userSlice = createSlice({
         state.message =
           action.error.message ||
           'Unable to activate user account. Please try again.';
+      });
+    // login user
+    builder
+      .addCase(loginUser.pending, state => {
+        state.loading = true;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        state.message = action.payload.message;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        state.message =
+          action.error.message || 'Unable to login. Please try again.';
       });
   },
 });

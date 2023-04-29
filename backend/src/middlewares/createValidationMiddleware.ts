@@ -33,7 +33,7 @@ const createValidationMiddleware = (requiredFields: FieldName[]) => {
                 });
             }
             return res.status(400).json({
-                error: `The following required fields are missing: ${missingFields.join(
+                message: `The following required fields are missing: ${missingFields.join(
                     ", "
                 )}`,
             });
@@ -52,7 +52,7 @@ const createValidationMiddleware = (requiredFields: FieldName[]) => {
             !isStrongPassword(userData.password as string)
         ) {
             return res.status(400).json({
-                error: "Password must be at least 8 characters long.",
+                message: "Password must be at least 8 characters long.",
             });
         }
 

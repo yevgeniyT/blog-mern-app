@@ -167,7 +167,13 @@ const loginUser = async (req: Request, res: Response) => {
         // 4. Create an authentication token containing the user's ID and role
         const authToken = createAuthToken(user._id, user.role.toString());
 
-        // 5. Set the authToken as an HttpOnly cookie, "authToken" - name of cookie, can be anyname
+        // 5. Reset cookie of there is one for some reason already exists
+
+        if (req.cookies[authToken]) {
+            req.cookies[authToken] = "";
+        }
+
+        // 6. Set the authToken as an HttpOnly cookie, "authToken" - name of cookie, can be anyname
         res.cookie("authToken", authToken, {
             // Set "secure" to true if using HTTPS
             httpOnly: true,
@@ -178,10 +184,9 @@ const loginUser = async (req: Request, res: Response) => {
             secure: false,
 
             // sets the cookie to expire in 4 minutes from the time it is created.
-            expires: new Date(Date.now() + 1000 * 4 * 60),
+            expires: new Date(Date.now() + 1000 * 1 * 60),
 
             // Set the SameSite attribute to protect against CSRF attacks
-            //Lax: The cookie is sent with same-site requests and certain cross-site requests, such as GET requests where the request's top-level navigation changes to the target domain. This provides a good balance between security and usability, as it still prevents CSRF attacks in most cases but allows for some cross-origin requests.
             sameSite: "lax",
         });
 
@@ -190,6 +195,7 @@ const loginUser = async (req: Request, res: Response) => {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
+                role: user.role,
             },
             message: "User successfully logged in. Welcome!",
         });

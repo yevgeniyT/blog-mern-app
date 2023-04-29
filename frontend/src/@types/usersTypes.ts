@@ -10,3 +10,8 @@ export interface IUser {
   isActive?: boolean;
   lastLogin?: Date;
 }
+
+export interface UserCredentials {
+  email: string;
+  password: string;
+}
