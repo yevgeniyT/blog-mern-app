@@ -1,6 +1,20 @@
-# Project Title
+# Project Title: Full-Stack Blog Application
 
-A brief description of your project, its purpose, and main features.
+This full-stack blog application is designed to provide an engaging and interactive user experience by incorporating unique features such as a rich text editor, categories and tags, moderation system, and Progressive Web App (PWA) capabilities. The frontend is built using React, Redux Toolkit, MUI, and TypeScript, while the backend leverages Express.js, MongoDB, Mongoose, JWT, and TypeScript. This application aims to stand out from typical blog projects built by junior developers.
+
+Features:
+
+-   Rich Text Editor
+    The application includes a feature-rich text editor for creating and editing articles. This editor supports text formatting, images, videos, and code snippets, providing a versatile and user-friendly content creation experience.
+
+-   Categories and Tags
+    Articles can be organized using categories and tags, enhancing content discoverability and improving the overall user experience by making it easy to find relevant articles.
+
+-   Moderation System
+    To maintain the quality of content on the blog, a moderation system is implemented for user-generated content such as articles and comments. This feature ensures that the blog remains a safe and enjoyable environment for all users.
+
+-   Progressive Web App (PWA)
+    The blog is developed as a Progressive Web App, offering a seamless, app-like experience on mobile devices. This feature allows users to enjoy the full functionality of the blog without needing to install a native app, ensuring a smooth and convenient experience across devices.
 
 ## Table of Contents
 
@@ -31,22 +45,9 @@ Before you begin, make sure your development environment meets the following req
     -   Express.js
     -   Django
 
-### System Requirements
-
--   Specify any system requirements or assumptions about the environment in which your app will be running, such as:
-    -   Operating System: Windows, macOS, or Linux
-    -   Hardware: Minimum 2 GB RAM, 10 GB free disk space
-
 ### API Keys and Services
 
 -   If your project relies on external APIs or services, list them and provide instructions on how to obtain the necessary API keys or credentials.
-
-### Browser Compatibility
-
--   If your project is a web application, list the browsers and their versions that your application supports, for example:
-    -   Google Chrome (v90 or higher)
-    -   Mozilla Firefox (v85 or higher)
-    -   Microsoft Edge (v89 or higher)
 
 ## Installation and Setup
 

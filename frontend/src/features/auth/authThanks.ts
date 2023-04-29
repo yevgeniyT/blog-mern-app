@@ -8,8 +8,8 @@ interface ErrorResponseData {
 
 const BASE_URL = 'http://localhost:8080/api/v1/users';
 
-const addNewUser = createAsyncThunk(
-  'users/addNewUser',
+const registerNewUser = createAsyncThunk(
+  'users/registerNewUser',
   async (newUser: FormData) => {
     // log form data this way
     // for (const [key, value] of newUser) {
@@ -19,7 +19,6 @@ const addNewUser = createAsyncThunk(
     try {
       const response = await axios.post(`${BASE_URL}/register`, newUser);
       // console.log(response.data);
-
       return response.data;
     } catch (error) {
       // use type of error from axios to type error massege from backend
@@ -41,10 +40,12 @@ const verifyNewUser = createAsyncThunk(
     try {
       // 2. post request to the router verify-email from backend (see in userRouters)
       const response = await axios.post(`${BASE_URL}/verify-email`, { token });
+      console.log(response.data);
+
       return response.data;
     } catch (error) {
       throw new Error('Failed to create new user');
     }
   },
 );
-export { addNewUser, verifyNewUser };
+export { registerNewUser, verifyNewUser };

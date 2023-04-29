@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { addNewUser } from './authThanks';
+import { registerNewUser, verifyNewUser } from './authThanks';
 
 import { IUser } from '../../@types/usersTypes';
 
@@ -16,17 +16,17 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    //Create new User
+    //Register new User
     builder
-      .addCase(addNewUser.pending, state => {
+      .addCase(registerNewUser.pending, state => {
         state.loading = true;
       })
-      .addCase(addNewUser.fulfilled, (state, action) => {
+      .addCase(registerNewUser.fulfilled, (state, action) => {
         const newUser = action.payload;
         state.users = [...state.users, newUser];
         state.loading = false;
       })
-      .addCase(addNewUser.rejected, (state, action) => {
+      .addCase(registerNewUser.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
         // Update the message with the error message from the action reciwed from thunk from catch block by throw new Error
@@ -35,41 +35,23 @@ export const userSlice = createSlice({
           // use alias to handle undefined type
           'Unable to create user account. Please try again.';
       });
-
-    // Get all posts
-    // builder
-    //   .addCase(getAllPosts.pending, state => {
-    //     state.loading = true;
-    //     state.message = 'Data is pending ....';
-    //   })
-    //   .addCase(getAllPosts.fulfilled, (state, action) => {
-    //     state.posts = action.payload;
-    //     state.loading = false;
-    //     state.error = false;
-    //   })
-    //   .addCase(getAllPosts.rejected, state => {
-    //     state.error = true;
-    //     state.loading = false;
-    //     state.message = 'Data fetching failed';
-    //     state.posts = [];
-    //   });
-    // Delete post
-    // builder
-    //   .addCase(deletePost.pending, state => {
-    //     state.loading = true;
-    //     state.error = false;
-    //   })
-    //   .addCase(deletePost.fulfilled, (state, action) => {
-    //     const id = action.payload;
-    //     state.loading = false;
-    //     state.error = false;
-    //     state.posts = state.posts.filter(post => post.id !== id);
-    //   })
-    //   .addCase(deletePost.rejected, state => {
-    //     state.loading = false;
-    //     state.error = true;
-    //     state.message = 'Delete post failed';
-    //   });
+    // Verify new User
+    builder
+      .addCase(verifyNewUser.pending, state => {
+        state.loading = true;
+      })
+      .addCase(verifyNewUser.fulfilled, state => {
+        state.loading = false;
+        state.error = false;
+        state.message = 'User account successfully activated!';
+      })
+      .addCase(verifyNewUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        state.message =
+          action.error.message ||
+          'Unable to activate user account. Please try again.';
+      });
   },
 });
 

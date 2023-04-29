@@ -12,7 +12,7 @@ import {
   Button,
   Box,
 } from '@mui/material';
-import { addNewUser } from '../features/auth/authThanks';
+import { registerNewUser } from '../features/auth/authThanks';
 
 const RegistrationPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -44,7 +44,7 @@ const RegistrationPage: React.FC = () => {
         newUserFormData.append('avatarImage', avatar);
       }
 
-      dispatch(addNewUser(newUserFormData));
+      dispatch(registerNewUser(newUserFormData));
     } catch (error) {
       //To avoid TypeScript error in catch block and to access the message property of the error, first check if the error is an instance of Error.
       if (error instanceof Error) {

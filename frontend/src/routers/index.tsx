@@ -9,13 +9,14 @@ import CategoryPage from '../pages/CategoryPage';
 import LoginPage from '../pages/LoginPage';
 import TagPage from '../pages/TagPage';
 import RegisterPage from '../pages/RegisterPage';
-import { ErrorPage } from '../pages/ErrorPage';
+import { ErrorPage } from '../components/Error';
 
 // Components for routing import
 import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
 import AccountActivation from '../components/AccountActivation';
 import ForgotPasswordPage from '../pages/ForgotPswordPage';
+import UserDashboardPage from '../pages/userDashbordPage';
 
 const Index = () => {
   return (
@@ -39,6 +40,7 @@ const Index = () => {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/tag" element={<TagPage />} />
+            <Route path="/user-dashbord" element={<UserDashboardPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </main>
