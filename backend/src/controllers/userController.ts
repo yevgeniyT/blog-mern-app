@@ -330,7 +330,7 @@ const deleteUserProfile = async (req: AuthenticatedRequest, res: Response) => {
 
 const requestPasswordReset = async (req: Request, res: Response) => {
     try {
-        // 1. Check for missing required fields
+        // 1. Check for missing required fields. firstName and lastName are used in email message
         const { email, firstName, lastName } = req.body as Partial<userType>;
         if (!email) {
             return res.status(400).json({ error: "Email is required." });
@@ -344,7 +344,7 @@ const requestPasswordReset = async (req: Request, res: Response) => {
             });
         }
 
-        // 3. Place email to token to use it after confirmation that will be send by email. getToken recieves 2 parameters, first is objext and the second is array of keys
+        // 3. Place email to token to use it after confirmation that will be send by email. getToken recieves 2 parameters, first is object and the second is array of keys
         const token = getToken({ email }, ["email"]);
 
         // 4. Store email text to be sent by email in variable
@@ -353,7 +353,7 @@ const requestPasswordReset = async (req: Request, res: Response) => {
             subject: "Reset password Email",
             html: `
             <h2> Hello ${firstName} ${lastName} ! </h2>
-            <p> Please click here to <a href="${dev.app.clientUrl}/api/v1/users/reset-password?token=${token}" target="_blank"> reset your password  </a> </p>`,
+            <p> Please click here to <a href="${dev.app.clientUrl}/api/v1/users/reset-password/${token}" target="_blank"> reset your password  </a> </p>`,
         };
 
         // 5. Send email useing fuction from emailService to sent varification email>

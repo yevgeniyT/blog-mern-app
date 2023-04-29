@@ -1,13 +1,22 @@
 // ForgotPasswordPage.tsx
 import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+
 import { Container, Box, Typography, TextField, Button } from '@mui/material';
 
+import { forgotPassword } from '../features/auth/authThanks';
+
 const ForgotPasswordPage: React.FC = () => {
+  // Use hook to dispatch data to thunk
+  const dispatch = useAppDispatch();
+  // get data from state to handle conditional rendering based on lodaing status
+  const { loading, error, message } = useAppSelector(state => state.usersR);
+  // create state to store data from input filed
   const [email, setEmail] = useState('');
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // Handle sending the password reset email here
+    dispatch(forgotPassword(email));
   };
 
   return (
