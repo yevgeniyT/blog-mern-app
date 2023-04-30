@@ -4,7 +4,7 @@ import { getUserProfile } from './userThanks';
 import { IUser } from '../../@types/usersTypes';
 
 const initialState = {
-  user: [] as IUser[],
+  user: null as IUser | null,
   loading: false,
   error: false,
   message: '',
@@ -20,7 +20,8 @@ export const userProfile = createSlice({
         state.loading = true;
       })
       .addCase(getUserProfile.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = action.payload.User;
+
         state.loading = false;
         state.error = false;
         state.message = action.payload.message;
@@ -30,7 +31,8 @@ export const userProfile = createSlice({
         state.error = true;
         state.message =
           action.error.message || 'Unable to reset password. Please try again.';
-        state.user = [];
+        state.user = null;
+        console.log(state.message);
       });
   },
 });

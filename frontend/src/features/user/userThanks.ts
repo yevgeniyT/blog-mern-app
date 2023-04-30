@@ -9,7 +9,8 @@ const BASE_URL = 'http://localhost:8080/api/v1/users/profile';
 
 const getUserProfile = createAsyncThunk('user/getUserProfile', async () => {
   try {
-    const response = await axios.get(`${BASE_URL}`);
+    // use this- { withCredentials: true } to send cookie to backend
+    const response = await axios.get(`${BASE_URL}`, { withCredentials: true });
     // console.log(response.data);
     return response.data;
   } catch (error) {

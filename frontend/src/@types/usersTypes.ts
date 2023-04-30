@@ -6,7 +6,7 @@ export interface IUser {
   createdAt?: Date;
   updatedAt?: Date;
   role?: string;
-  avatarImage?: string;
+  avatar?: string;
   isActive?: boolean;
   lastLogin?: Date;
 }

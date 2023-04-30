@@ -184,19 +184,13 @@ const loginUser = async (req: Request, res: Response) => {
             secure: false,
 
             // sets the cookie to expire in 4 minutes from the time it is created.
-            expires: new Date(Date.now() + 1000 * 1 * 60),
+            expires: new Date(Date.now() + 1000 * 30 * 60),
 
             // Set the SameSite attribute to protect against CSRF attacks
             sameSite: "lax",
         });
 
         return res.status(200).json({
-            user: {
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                role: user.role,
-            },
             message: "User successfully logged in. Welcome!",
         });
     } catch (error: unknown) {

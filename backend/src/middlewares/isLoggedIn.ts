@@ -14,6 +14,7 @@ const isLoggedIn = (
     try {
         // 1. Get the authToken from the cookies
         const authToken = req.cookies["authToken"];
+        console.log(authToken);
 
         // 2. Check if authToken exists
         if (!authToken) {

@@ -8,6 +8,8 @@ import {
   Button,
   CardHeader,
   Avatar,
+  Box,
+  Grid,
 } from '@mui/material';
 
 import { IUser } from '../../@types/usersTypes';
@@ -15,35 +17,62 @@ import { IUser } from '../../@types/usersTypes';
 interface UserCardProps {
   user: IUser;
   onEdit: () => void;
+  onDelete: () => void;
 }
 
-const UserCard: React.FC<UserCardProps> = ({ user, onEdit }) => {
-  const { firstName, lastName, role, avatarImage } = user;
+const UserCard: React.FC<UserCardProps> = ({ user, onEdit, onDelete }) => {
+  const { firstName, lastName, role, avatar } = user;
 
   return (
-    <Card>
-      <CardHeader
-        avatar={<Avatar alt={`${firstName} ${lastName}`} src={avatarImage} />}
-        title={`${firstName} ${lastName}`}
-        subheader={
-          <Typography
-            component="span"
+    <Card sx={{ width: '80%', maxWidth: 800 }}>
+      <Grid container>
+        <Grid item xs={12} md={4}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+            <Avatar
+              alt={`${firstName} ${lastName}`}
+              src={avatar}
+              sx={{
+                width: 150,
+                height: 150,
+                borderRadius: '50%',
+                objectFit: 'cover',
+              }}
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <CardHeader
+            title={`${firstName} ${lastName}`}
+            subheader={
+              <Typography
+                component="span"
+                sx={{
+                  textDecoration: role === 'admin' ? 'underline' : 'none',
+                }}
+              >
+                {role}
+              </Typography>
+            }
+          />
+          <CardContent>
+            {/* Additional information about the user can be added here */}
+          </CardContent>
+          <CardActions
             sx={{
-              textDecoration: role === 'admin' ? 'underline' : 'none',
+              display: 'flex',
+              justifyContent: 'space-between',
+              paddingRight: '1rem',
             }}
           >
-            {role}
-          </Typography>
-        }
-      />
-      <CardContent>
-        {/* Additional information about the user can be added here */}
-      </CardContent>
-      <CardActions>
-        <Button size="small" onClick={onEdit}>
-          Edit
-        </Button>
-      </CardActions>
+            <Button size="small" onClick={onEdit}>
+              Edit
+            </Button>
+            <Button size="small" onClick={onDelete} color="error">
+              Delete
+            </Button>
+          </CardActions>
+        </Grid>
+      </Grid>
     </Card>
   );
 };

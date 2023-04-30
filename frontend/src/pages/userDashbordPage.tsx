@@ -13,9 +13,28 @@ const UserDashboard: React.FC = () => {
     dispatch(getUserProfile());
   }, [dispatch]);
 
-  const userProgile = useAppSelector(state => state.userR.user);
+  const userProfile = useAppSelector(state => state.userR.user);
 
-  return <Container maxWidth="md">user profile</Container>;
+  // Define the handleEdit function
+  const handleEdit = () => {
+    console.log('Edit button clicked');
+    // Implement the logic for editing a user here
+  };
+  const handleDelete = () => {
+    console.log('Edit button clicked');
+    // Implement the logic for editing a user here
+  };
+  return (
+    <Container maxWidth="md">
+      {userProfile && (
+        <UserCard
+          user={userProfile}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      )}
+    </Container>
+  );
 };
 
 export default UserDashboard;
