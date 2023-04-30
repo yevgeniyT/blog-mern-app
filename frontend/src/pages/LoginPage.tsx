@@ -14,6 +14,7 @@ import {
 
 import { loginUser } from '../features/auth/authThanks';
 import Loading from '../components/Loading';
+import { resetError } from '../features/auth/authSlice';
 
 const LoginPage: React.FC = () => {
   // Use hook to conditionaly navigate user to needed page
@@ -21,34 +22,45 @@ const LoginPage: React.FC = () => {
   // Use hook to dispatch data to thunk
   const dispatch = useAppDispatch();
   // get data from state to handle conditional rendering based on lodaing status
-  const { loading, error, message } = useAppSelector(state => state.usersR);
+  const { loading, error, message } = useAppSelector(state => state.authR);
   // 1. Set state to store email and password from input fields
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
   });
+  //state to handle navigation after successful login
+  const [navigateToDashboard, setNavigateToDashboard] = useState(false);
 
   // 2. Send data to thunk for post request to backend to login router
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     dispatch(loginUser(credentials));
-
-    // 3. Handle login logic here
+    if (!loading && !error && message) {
+      setNavigateToDashboard(true);
+    }
   };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials(prev => ({
       ...prev,
       [event.target.name]: event.target.value,
     }));
   };
+
   // 4. Redirect user in case of sucess to userDashbord page. Using useEffect insted if conditional rendering in this case is to have more control over side effects like navigation. Since navigation is a side effect, it's a good practice to handle it inside a useEffect.
   useEffect(() => {
-    if (!loading && !error && message) {
+    if (navigateToDashboard) {
       setTimeout(() => {
         navigate('/user-dashbord');
       }, 1500);
     }
-  }, [loading, error, message, navigate]);
+  }, [navigateToDashboard, navigate]);
+
+  const handleSignUpClick = () => {
+    // Clear the error state before navigating
+    dispatch(resetError());
+    navigate('/forgot-password');
+  };
 
   return (
     <Container maxWidth="sm">
@@ -102,11 +114,7 @@ const LoginPage: React.FC = () => {
           </Button>
         </Box>
         <Box mb={1} display="flex" justifyContent="space-between">
-          <Link
-            href="#"
-            onClick={() => navigate('/forgot-password')}
-            variant="body2"
-          >
+          <Link href="#" onClick={handleSignUpClick} variant="body2">
             Forgot Password?
           </Link>
           <Link href="#" onClick={() => navigate('/register')} variant="body2">

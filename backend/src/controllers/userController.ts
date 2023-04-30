@@ -353,7 +353,7 @@ const requestPasswordReset = async (req: Request, res: Response) => {
             subject: "Reset password Email",
             html: `
             <h2> Hello ${firstName} ${lastName} ! </h2>
-            <p> Please click here to <a href="${dev.app.clientUrl}/api/v1/users/reset-password/${token}" target="_blank"> reset your password  </a> </p>`,
+            <p> Please click here to <a href="${dev.app.clientUrl}/api/v1/users/verify-password/${token}" target="_blank"> reset your password  </a> </p>`,
         };
 
         // 5. Send email useing fuction from emailService to sent varification email>
@@ -377,7 +377,8 @@ const requestPasswordReset = async (req: Request, res: Response) => {
 const validatePasswordResetToken = async (req: Request, res: Response) => {
     try {
         // 1. Get token from params
-        const token = req.params.token;
+        const { token } = req.body;
+        console.log(token);
 
         // 2. Check if the token exist
         if (!token) {
@@ -413,6 +414,8 @@ const resetPassword = async (req: Request, res: Response) => {
     try {
         // 1. Get data from front end. Important that user is not passing email, it passed as successful massege when user varify token. Just need to store it and pass back to use it to find user in db
         const { email, password } = req.body;
+        console.log(email);
+        console.log(password);
 
         // 2. Check if we have all fields, Checking done by middlware in routers
 

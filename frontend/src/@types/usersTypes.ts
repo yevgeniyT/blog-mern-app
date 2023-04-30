@@ -4,7 +4,7 @@ export interface IUser {
   firstName: string;
   lastName: string;
   createdAt?: Date;
-  updatedA?: Date;
+  updatedAt?: Date;
   role?: string;
   avatarImage?: string;
   isActive?: boolean;

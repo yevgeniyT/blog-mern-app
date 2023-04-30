@@ -51,7 +51,7 @@ userRouter
 
 //Routers tp handele forgot-reset password
 userRouter.post("/forgot-password", requestPasswordReset);
-userRouter.get("/reset-password/:token", validatePasswordResetToken);
-userRouter.put("/reset-password", resetPasswordValidation, resetPassword);
+userRouter.post("/verify-password", validatePasswordResetToken);
+userRouter.put("/set-newpassword", resetPasswordValidation, resetPassword);
 
 export default userRouter;

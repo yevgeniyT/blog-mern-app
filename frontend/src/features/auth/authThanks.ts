@@ -6,6 +6,14 @@ import { UserCredentials } from '../../@types/usersTypes';
 interface ErrorResponseData {
   message: string;
 }
+interface ResetPasswordData {
+  email: string;
+  password: string;
+}
+
+interface ResetPasswordResponse {
+  message: string;
+}
 
 const BASE_URL = 'http://localhost:8080/api/v1/users';
 
@@ -53,7 +61,6 @@ const verifyNewUser = createAsyncThunk(
 );
 
 // 3. Post reqiest to backend login user
-
 const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (credentials: UserCredentials) => {
@@ -78,7 +85,7 @@ const loginUser = createAsyncThunk(
     }
   },
 );
-
+// 4. Post reqiest to send email to reset password
 const forgotPassword = createAsyncThunk(
   'auth/forgotpassword',
   async (email: string) => {
@@ -102,4 +109,63 @@ const forgotPassword = createAsyncThunk(
     }
   },
 );
-export { registerNewUser, verifyNewUser, loginUser, forgotPassword };
+
+// 5 Post reqiest to verify email to reset password
+const resetPasswordVarification = createAsyncThunk(
+  'auth/resetPasswordVarification',
+  async (token: string) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/verify-password`, {
+        token,
+      });
+      console.log(response.data.message);
+      return response.data;
+    } catch (error) {
+      // use type of error from axios to type error massege from backend
+      const axiosError = error as AxiosError;
+      if (axiosError.response) {
+        const errorData = axiosError.response.data as ErrorResponseData;
+        //When an error is thrown in the async thunk, Redux Toolkit automatically triggers the rejected case in the slice. The error object thrown in the thunk is passed to the rejected case through the action.error object.
+        console.log(errorData);
+
+        throw new Error(errorData.message);
+      }
+      throw new Error('Error on reseting password');
+    }
+  },
+);
+// 6 Post reqiest to reset password
+const setNewPassword = createAsyncThunk<
+  ResetPasswordResponse,
+  ResetPasswordData
+>('auth/setNewPassword', async resetPasswordData => {
+  try {
+    console.log(resetPasswordData);
+
+    const response = await axios.put(
+      `${BASE_URL}/set-newpassword`,
+      resetPasswordData,
+    );
+    console.log(response.data.message);
+    return response.data;
+  } catch (error) {
+    // use type of error from axios to type error massege from backend
+    const axiosError = error as AxiosError;
+    if (axiosError.response) {
+      const errorData = axiosError.response.data as ErrorResponseData;
+      //When an error is thrown in the async thunk, Redux Toolkit automatically triggers the rejected case in the slice. The error object thrown in the thunk is passed to the rejected case through the action.error object.
+      console.log(errorData.message);
+
+      throw new Error(errorData.message);
+    }
+    throw new Error('Error on reseting password');
+  }
+});
+export {
+  registerNewUser,
+  verifyNewUser,
+  loginUser,
+  forgotPassword,
+  resetPasswordVarification,
+  setNewPassword,
+};

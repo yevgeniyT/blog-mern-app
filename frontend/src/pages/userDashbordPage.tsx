@@ -1,30 +1,21 @@
 // UserDashboard.tsx
-import React from 'react';
-import { Container, Typography, Box, Card, CardContent } from '@mui/material';
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+
+import { Container } from '@mui/material';
+import UserCard from '../components/user/userCard';
+import { getUserProfile } from '../features/user/userThanks';
 
 const UserDashboard: React.FC = () => {
-  return (
-    <Container maxWidth="md">
-      <Box sx={{ mt: 8 }}>
-        <Typography variant="h4" align="center">
-          User Dashboard
-        </Typography>
-        <Box sx={{ mt: 4 }}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6">Account Details</Typography>
-              <Typography variant="body1">Name: John Doe</Typography>
-              <Typography variant="body1">
-                Email: johndoe@example.com
-              </Typography>
-              {/* Add more user account details here */}
-            </CardContent>
-          </Card>
-          {/* Add more cards or components to extend the dashboard functionality */}
-        </Box>
-      </Box>
-    </Container>
-  );
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getUserProfile());
+  }, [dispatch]);
+
+  const userProgile = useAppSelector(state => state.userR.user);
+
+  return <Container maxWidth="md">user profile</Container>;
 };
 
 export default UserDashboard;

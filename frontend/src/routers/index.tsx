@@ -17,6 +17,8 @@ import Footer from '../components/common/Footer';
 import AccountActivation from '../components/AccountActivation';
 import ForgotPasswordPage from '../pages/ForgotPswordPage';
 import UserDashboardPage from '../pages/userDashbordPage';
+import ResetPasswordActivation from '../components/resetPasswordActivation';
+import ResetPasswordPage from '../pages/ResetPasswordPage';
 
 const Index = () => {
   return (
@@ -34,11 +36,17 @@ const Index = () => {
               path="/api/v1/users/activate/:token"
               element={<AccountActivation />}
             />
+            <Route
+              // make sure to set full route!!!
+              path="/api/v1/users/verify-password/:token"
+              element={<ResetPasswordActivation />}
+            />
             <Route path="/article" element={<ArticlePage />} />
             <Route path="/category" element={<CategoryPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/tag" element={<TagPage />} />
             <Route path="/user-dashbord" element={<UserDashboardPage />} />
             <Route path="*" element={<ErrorPage />} />

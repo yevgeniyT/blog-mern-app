@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { loginUser, registerNewUser, verifyNewUser } from './authThanks';
+import {
+  forgotPassword,
+  loginUser,
+  registerNewUser,
+  resetPasswordVarification,
+  setNewPassword,
+  verifyNewUser,
+} from './authThanks';
 
 import { IUser } from '../../@types/usersTypes';
 
@@ -11,12 +18,18 @@ const initialState = {
   message: '',
 };
 
-export const userSlice = createSlice({
-  name: 'users',
+export const authSlice = createSlice({
+  name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    // Used to cleare message states to emtpy while navigating between pages
+    resetError: state => {
+      state.error = false;
+      state.message = '';
+    },
+  },
   extraReducers: builder => {
-    //Register new User
+    // 1. Register new User
     builder
       .addCase(registerNewUser.pending, state => {
         state.loading = true;
@@ -35,7 +48,7 @@ export const userSlice = createSlice({
           // use alias to handle undefined type
           'Unable to create user account. Please try again.';
       });
-    // Verify new User
+    // 2. Verify new User
     builder
       .addCase(verifyNewUser.pending, state => {
         state.loading = true;
@@ -52,10 +65,11 @@ export const userSlice = createSlice({
           action.error.message ||
           'Unable to activate user account. Please try again.';
       });
-    // login user
+    // 3. login user
     builder
       .addCase(loginUser.pending, state => {
         state.loading = true;
+        state.message = '';
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
@@ -68,7 +82,61 @@ export const userSlice = createSlice({
         state.message =
           action.error.message || 'Unable to login. Please try again.';
       });
+
+    // 4. Reset ppassword
+    // 3. login user
+    builder
+      .addCase(forgotPassword.pending, state => {
+        state.loading = true;
+        state.message = '';
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        state.message = action.payload.message;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        state.message =
+          action.error.message || 'Unable to login. Please try again.';
+      });
+
+    // 5. Reset passowrd varification
+    builder
+      .addCase(resetPasswordVarification.pending, state => {
+        state.loading = true;
+      })
+      .addCase(resetPasswordVarification.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        // state.message = action.payload.message;
+      })
+      .addCase(resetPasswordVarification.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        state.message =
+          action.error.message || 'Unable to reset password. Please try again.';
+      });
+
+    // 6. Reset passowrd varification
+    builder
+      .addCase(setNewPassword.pending, state => {
+        state.loading = true;
+      })
+      .addCase(setNewPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        state.message = action.payload.message;
+      })
+      .addCase(setNewPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        state.message =
+          action.error.message || 'Unable to reset password. Please try again.';
+      });
   },
 });
 
-export default userSlice.reducer;
+export const { resetError } = authSlice.actions;
+export default authSlice.reducer;
