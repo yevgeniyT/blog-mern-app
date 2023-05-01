@@ -15,6 +15,7 @@ import connectDB from "./config/db";
 import dev from "./config";
 import useRouter from "./routes/userRoutes";
 import adminRouter from "./routes/adminRoutes";
+import blogsRouter from "./routes/blogsRouters";
 
 // use Application type from express
 const app: Application = express();
@@ -39,6 +40,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/v1/users", useRouter);
 app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/blogs", blogsRouter);
 const PORT = dev.app.serverPort;
 
 app.listen(PORT, async () => {

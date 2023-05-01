@@ -1,17 +1,29 @@
-//This configuration sets up Multer with a custom disk storage engine, specifying the destination folder for uploaded files as "src/uploads/". The filename is generated using the current timestamp and the original filename. This helps avoid filename collisions and maintain uniqueness.
 import multer from "multer";
-
-const storage = multer.diskStorage({
-    //sets the destination folder for the uploaded files to "src/uploads/
+import path from "path";
+// Set up Multer storage for avatar images with a custom disk storage engine,
+// specifying the destination folder for uploaded files as "src/uploads/avatars".
+const avatarStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "src/uploads/avatars");
+        // Use process.cwd() instead of __dirname to get the correct directory,
+        // considering that the code will be transpiled to the 'dist' folder when using TypeScript.
+        cb(null, path.join(process.cwd(), "src/uploads/avatars"));
     },
-    // /generates a unique filename for each uploaded file, by combining the current timestamp with the original file name.
+    // Generate a unique filename for each uploaded file, by combining the current timestamp with the original file name.
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`);
     },
 });
-// upload will be used as middleware
-const upload = multer({ storage: storage });
 
-export default upload;
+const blogImageStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(process.cwd(), "src/uploads/blogImages"));
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
+
+const avatarUpload = multer({ storage: avatarStorage });
+const blogImageUpload = multer({ storage: blogImageStorage });
+
+export { avatarUpload, blogImageUpload };

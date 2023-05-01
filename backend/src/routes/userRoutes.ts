@@ -3,7 +3,7 @@ import { Router } from "express";
 //express-formidable is a middleware for Express.js that simplifies handling form submissions with enctype multipart/form-data. It is particularly useful when your form includes file uploads.
 // import formidable from "express-formidable";
 // import multer to handle image upload
-import upload from "../middlewares/multerConfig";
+import { avatarUpload } from "../middlewares/multerConfig";
 
 //other components imports
 import {
@@ -32,7 +32,7 @@ const userRouter = Router();
 //Router for sign in user
 userRouter.post(
     "/register",
-    upload.single("avatarImage"),
+    avatarUpload.single("avatarImage"),
     onCreateUserValidation,
     registerUser
 );
@@ -52,6 +52,6 @@ userRouter
 //Routers tp handele forgot-reset password
 userRouter.post("/forgot-password", requestPasswordReset);
 userRouter.post("/verify-password", validatePasswordResetToken);
-userRouter.put("/set-newpassword", resetPasswordValidation, resetPassword);
+userRouter.put("/set-newassword", resetPasswordValidation, resetPassword);
 
 export default userRouter;

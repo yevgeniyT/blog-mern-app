@@ -5,7 +5,7 @@ import mongoose, { Schema, Document, model } from "mongoose";
 import { getUniqueID } from "../helper/getId";
 import { isEmailValid, isStrongPassword } from "../helper/validation";
 
-//Extends the Document interface from Mongoose. This interface represents the structure of a product document in the database, including its properties and their types. Needed first of all for model
+//Extends the Document interface from Mongoose. This interface represents the structure of a user document in the database, including its properties and their types. Needed first of all for model
 export interface IUser extends Document {
     id: String;
     email: String;

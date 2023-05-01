@@ -5,7 +5,13 @@ import fs from "fs";
 import { isEmailValid, isStrongPassword } from "../helper/validation";
 
 // Create types that can be one of the following string literals. This helps in preventing errors due to typos or using invalid field names. When you use the FieldName type for a variable or a function parameter
-type FieldName = "email" | "password" | "firstName" | "lastName";
+type FieldName =
+    | "email"
+    | "password"
+    | "firstName"
+    | "lastName"
+    | "title"
+    | "content";
 
 // / Create a validation middleware factory function that accepts an array of required fields and returns a middleware function
 const createValidationMiddleware = (requiredFields: FieldName[]) => {

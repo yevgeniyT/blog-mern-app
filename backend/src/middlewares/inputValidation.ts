@@ -13,4 +13,10 @@ const resetPasswordValidation = createValidationMiddleware([
     "password",
 ]);
 
-export { onCreateUserValidation, signInValidation, resetPasswordValidation };
+const addPostValidation = createValidationMiddleware(["title", "content"]);
+export {
+    onCreateUserValidation,
+    signInValidation,
+    resetPasswordValidation,
+    addPostValidation,
+};
