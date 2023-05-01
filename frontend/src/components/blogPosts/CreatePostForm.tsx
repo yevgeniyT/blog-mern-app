@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   Container,
   TextField,
@@ -9,21 +9,32 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Alert,
   //   Chip,
   Box,
 } from '@mui/material';
 import { addNewBlogPost } from '../../features/blogPosts/blogPostsThunks';
+import Loading from '../Loading';
 
 // This component handles creating a new blog post and submitting the data to the backend.
 const CreatePostForm: React.FC = () => {
   const dispatch = useAppDispatch();
   // Declare state variables to store the form inputs.
+
+  const { loading, error, message } = useAppSelector(state => state.blogPostsR);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
   //   const [tags, setTags] = useState<string[]>([]);
   const [image, setImage] = useState<File | null>(null);
 
+  // Function to reset the form input fields
+  const resetForm = () => {
+    setTitle('');
+    setContent('');
+    setCategory('');
+    setImage(null);
+  };
   // Function to handle image change.
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -44,6 +55,7 @@ const CreatePostForm: React.FC = () => {
         newBlogPostFormData.append('blogImage', image);
       }
       dispatch(addNewBlogPost(newBlogPostFormData));
+      resetForm();
     } catch (error) {
       //To avoid TypeScript error in catch block and to access the message property of the error, first check if the error is an instance of Error.
       if (error instanceof Error) {
@@ -57,6 +69,22 @@ const CreatePostForm: React.FC = () => {
   // Render the form with input fields and a submit button.
   return (
     <Container maxWidth="md">
+      {/* Show a loading page when the request is being processed */}
+      {loading && <Loading />}
+
+      {/* Show an error message if there's an error */}
+      {error && (
+        <Box sx={{ mb: 2 }}>
+          <Alert severity="error">{message}</Alert>
+        </Box>
+      )}
+
+      {/* Show a success message if there's no error and a message is present */}
+      {!error && message && (
+        <Box sx={{ mb: 2 }}>
+          <Alert severity="success">{message}</Alert>
+        </Box>
+      )}
       <Typography variant="h4">Create a New Blog Post</Typography>
       <form onSubmit={handleSubmit}>
         <TextField

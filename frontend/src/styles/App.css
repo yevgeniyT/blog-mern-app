@@ -1,7 +1,24 @@
 * {
-  padding: 0;
-  margin: 0;
   box-sizing: border-box;
-  list-style: none;
-  border: none;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-decoration: none;
+  outline: none;
+  font-family: 'Teko', sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+main {
+  flex: 1;
+}
+
+.main-app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
 }

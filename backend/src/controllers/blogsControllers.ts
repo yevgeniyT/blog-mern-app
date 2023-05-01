@@ -6,14 +6,15 @@ import slugify from "slugify";
 import { errorHandler, successHandler } from "../helper/requestHandler";
 import { blogPost } from "../models/blogsSchema";
 
-const getAllBlogPosts = (req: Request, res: Response) => {
+const getAllBlogPosts = async (req: Request, res: Response) => {
     try {
         // use reusable function to handle seccess status
+        const allBlogPosts = await blogPost.find();
         return successHandler(
             res,
             200,
             "All blog posts retrieved successfully",
-            []
+            allBlogPosts
         );
     } catch (error: unknown) {
         if (typeof error === "string") {

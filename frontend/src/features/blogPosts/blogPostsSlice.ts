@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { IBlogPost } from '../../@types/blogPostTypes';
-import { addNewBlogPost } from './blogPostsThunks';
+import { addNewBlogPost, getAllBlogPosts } from './blogPostsThunks';
 
 const initialState = {
   blogPosts: [] as IBlogPost[],
@@ -10,7 +10,7 @@ const initialState = {
   message: '',
 };
 
-export const authSlice = createSlice({
+export const blogPostsSlice = createSlice({
   name: 'blogPosts',
   initialState,
   reducers: {
@@ -23,9 +23,10 @@ export const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(addNewBlogPost.fulfilled, (state, action) => {
-        const newBlogPost = action.payload;
-        state.blogPosts = [...state.blogPosts, newBlogPost];
+        const newBlogPosts = action.payload;
+        state.blogPosts = newBlogPosts;
         state.loading = false;
+        state.message = action.payload.message;
       })
       .addCase(addNewBlogPost.rejected, (state, action) => {
         state.loading = false;
@@ -36,5 +37,27 @@ export const authSlice = createSlice({
           // use alias to handle undefined type
           'Unable to create user account. Please try again.';
       });
+    // 2. Get all blog posts
+    builder
+      .addCase(getAllBlogPosts.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getAllBlogPosts.fulfilled, (state, action) => {
+        const blogPost = action.payload.data;
+
+        state.blogPosts = blogPost;
+        state.loading = false;
+        state.message = action.payload.message;
+      })
+      .addCase(getAllBlogPosts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        // Update the message with the error message from the action reciwed from thunk from catch block by throw new Error
+        state.message =
+          action.error.message ||
+          // use alias to handle undefined type
+          'Unable to create user account. Please try again.';
+      });
   },
 });
+export default blogPostsSlice.reducer;
