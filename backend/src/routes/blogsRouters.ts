@@ -14,16 +14,15 @@ import { addPostValidation } from "../middlewares/inputValidation";
 
 const blogsRouter = Router();
 
-blogsRouter
-    .route("/posts")
-    .get(getAllBlogPosts)
-    // upload single file with key blogImage
-    .post(
-        blogImageUpload.single("blogImage"),
-        //check if title and field exists
-        addPostValidation,
-        addNewBlogPost
-    );
+blogsRouter.get("/posts", getAllBlogPosts);
+// upload single file with key blogImage
+blogsRouter.post(
+    "/posts/addblogpost",
+    blogImageUpload.single("blogImage"),
+    //check if title and field exists
+    addPostValidation,
+    addNewBlogPost
+);
 blogsRouter
     .route("/post/:id")
     .put(updateBlogPost)

@@ -19,6 +19,7 @@ import ForgotPasswordPage from '../pages/ForgotPswordPage';
 import UserDashboardPage from '../pages/userDashbordPage';
 import ResetPasswordActivation from '../components/resetPasswordActivation';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
+import CreatePostForm from '../components/blogPosts/CreatePostForm';
 
 const Index = () => {
   return (
@@ -49,6 +50,7 @@ const Index = () => {
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/tag" element={<TagPage />} />
             <Route path="/user-dashbord" element={<UserDashboardPage />} />
+            <Route path="/add-new-post" element={<CreatePostForm />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </main>
